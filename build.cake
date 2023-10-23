@@ -11,9 +11,7 @@ Task("BuildWindows")
     .WithCriteria(() => IsRunningOnWindows())
     .Does(() =>
 {
-    MSBuildSettings msBuildSettings = new MSBuildSettings();
-    msBuildSettings.WithProperty("OutputDirectory", "Artifacts");
-    MSBuild("freeimage/FreeImage.2018.vcxproj", msBuildSettings);
+
 });
 
 Task("BuildMacOS")
