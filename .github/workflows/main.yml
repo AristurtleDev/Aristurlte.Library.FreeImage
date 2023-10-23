@@ -11,12 +11,17 @@ jobs:
       matrix:
         os: [windows-latest, macos-latest, ubuntu-20.04]
     steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - name: Add msbuild to PATH
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v1.0.2
         with: 
           vs-version: '15.0'
       - name: Build freeimage
+        if: runner.os == 'Windows'
         run: msbuild freeimage\FreeImage.2017.vcxproj
       - name: Install Linux dependencies
         if: runner.os == 'Linux'
@@ -29,10 +34,6 @@ jobs:
                 fcitx-libs-dev libsamplerate0-dev libsndio-dev libwayland-dev \
                 libxkbcommon-dev libdrm-dev libgbm-dev
         shell: bash
-      - name: Clone repository
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
       - name: Restore dotnet tools
         run: dotnet tool restore
       - name: Run CAKE
